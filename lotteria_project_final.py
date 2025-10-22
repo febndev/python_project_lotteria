@@ -1,7 +1,9 @@
-waiting_number=1
+waiting_number = 1
 order_number = 1  # 주문번호 끄면 초기화됌
 import datetime
 import os, sys, time
+
+
 def main():
     print("AutoRes is starting")
     executable = sys.executable
@@ -11,6 +13,7 @@ def main():
     time.sleep(1)
     print("Respawning")
     os.execvp(executable, args)
+
 
 def print_logo():
     print("""
@@ -24,20 +27,23 @@ def print_logo():
     ===============================================================
     """)
 
+
 def print_line():
     print("=" * 67)
+
 
 # 출력 정렬 함수 선언
 
 def is_wide(char):
     code = ord(char)
     return (
-        0xAC00 <= code <= 0xD7A3  # 한글 음절
-        or 0x1100 <= code <= 0x11FF  # 한글 자모
-        or 0x3130 <= code <= 0x318F  # 한글 호환 자모
-        or 0xA960 <= code <= 0xA97F  # 한글 자모 확장-A
-        or 0xD7B0 <= code <= 0xD7FF  # 한글 자모 확장-B
+            0xAC00 <= code <= 0xD7A3  # 한글 음절
+            or 0x1100 <= code <= 0x11FF  # 한글 자모
+            or 0x3130 <= code <= 0x318F  # 한글 호환 자모
+            or 0xA960 <= code <= 0xA97F  # 한글 자모 확장-A
+            or 0xD7B0 <= code <= 0xD7FF  # 한글 자모 확장-B
     )
+
 
 def get_display_width(text):
     width = 0
@@ -45,10 +51,13 @@ def get_display_width(text):
         width += 2 if is_wide(ch) else 1
     return width
 
+
 def pad_manual(text, total_width):
     current_width = get_display_width(text)
     padding = total_width - current_width
     return text + ' ' * padding
+
+
 # 출력정렬함수선언끝
 
 while True:
@@ -76,54 +85,63 @@ while True:
             print("다시 입력")
             break
 
+
 def print_logo():
     print("""
-    
+
     ██╗      ██████╗ ████████╗████████╗███████╗██████╗ ██╗ ██████╗
     ██║     ██╔═══██╗╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗██║██╔═══██╗
     ██║     ██║   ██║   ██║      ██║   █████╗  ██████╔╝██║██║█████║
     ██║     ██║   ██║   ██║      ██║   ██╔══╝  ██╔══██╗██║██║   ██║
     ███████╗╚██████╔╝   ██║      ██║   ███████╗██║  ██║██║██║    █║
     ╚══════╝ ╚═════╝    ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝    ╚╝
-    
+
     """)
+
 
 def print_line():
     print("=" * 67)
 
-while True:
-    while True:
-        print_logo()
-        print_line()
-        print(f'{"식사 장소를 선택해 주세요":^62}')
-        print_line()
-        print("")
-        print("1. 매장식사", "2. 포장주문")  # 장소 선택메뉴 출력
-        print("")
-        print_line()
-        select = int(input("숫자를 입력해 주세요.:  "))
 
-        if select == 1:
-            print("매장에서 드실 메뉴를 선택해 주세요.")
-            oder_method = 1
+while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까지의 전체 주문 프로세스를 감쌈
+    print_logo() # 로고는 계속 출력되도록 변경
+    print_line()
+    print(f'{"식사 장소를 선택해 주세요":^62}')
+    print_line()
+    print("")
+    print("1. 매장식사", "2. 포장주문")  # 장소 선택메뉴 출력
+    print("")
+    print_line()
+    select = 0 # select 초기화
+    while True: # 유효한 입력이 들어올 때까지 반복
+        try:
+            select = int(input("숫자를 입력해 주세요.:  "))
+            if select in [1, 2]:
+                break
+            else:
+                print("1 또는 2를 입력해주세요.")
+        except ValueError:
+            print("유효한 숫자를 입력해주세요.")
 
-            break
-        elif select == 2:
-            print("포장하실 메뉴를 선택해 주세요.")
-            oder_method = 2
+    if select == 1:
+        print("매장에서 드실 메뉴를 선택해 주세요.")
+        oder_method = 1
 
-            break
-        else:  # 선택오류
-            print("다시 선택해 주세요.")
-            print()       # 출력결과 지우고 첫화면으로 이동
+    elif select == 2:
+        print("포장하실 메뉴를 선택해 주세요.")
+        oder_method = 2
+
+    os.system("clear") # 선택 완료 후 화면 정리
+
 
     # 버거 리스트
     burger_lst = ["01.더블한우불고기버거", "02.한우불고기버거", "03.모짜렐라인더버거베이컨", "04.리아불고기더블(빅불)", "05.전주비빔라이스버거",
-                 "06.더블엑스투버거","07.핫크리스피치킨버거","08.리아불고기베이컨","09.리아새우베이컨","10.맛피아모짜렐라(토마토바질)",
-                 "11.맛피아모짜렐라(발사믹바질)","12.리아사각새우더블","13.리아불고기","14.리아새우","15.티렉스버거","16.더블치킨버거","17.치킨버거",
-                 "18.더블데리버거","19.데리버거","20.더블클래식치즈버거(버터번)","21.클래식치즈버거(버터번)","22.더블미라클버거","23.미라클버거",
-                 "24.한우명품팩","25.한우연인팩"]
-    burger_price = [13000, 9000, 8000, 7600, 7300, 7200, 6200, 6100, 6100, 9100, 9100, 6100, 5000, 5000, 5000, 5800, 4300, 5000, 3700, 7200, 5500, 7200, 5700, 18500, 16700]
+                  "06.더블엑스투버거", "07.핫크리스피치킨버거", "08.리아불고기베이컨", "09.리아새우베이컨", "10.맛피아모짜렐라(토마토바질)",
+                  "11.맛피아모짜렐라(발사믹바질)", "12.리아사각새우더블", "13.리아불고기", "14.리아새우", "15.티렉스버거", "16.더블치킨버거", "17.치킨버거",
+                  "18.더블데리버거", "19.데리버거", "20.더블클래식치즈버거(버터번)", "21.클래식치즈버거(버터번)", "22.더블미라클버거", "23.미라클버거",
+                  "24.한우명품팩", "25.한우연인팩"]
+    burger_price = [13000, 9000, 8000, 7600, 7300, 7200, 6200, 6100, 6100, 9100, 9100, 6100, 5000, 5000, 5000, 5800,
+                    4300, 5000, 3700, 7200, 5500, 7200, 5700, 18500, 16700]
 
     # # 음료 , 커피 리스트
     # drink_lst = ["1.펩시콜라(L)", "2.칠성사이다(L)", "3.펩시콜라(R)", "4.칠성사이다(R)", "5.펩시콜라(S)","6.칠성사이다(S)",
@@ -133,43 +151,50 @@ while True:
     # drink_price = [2200, 2200, 2000, 2000, 1400, 1400, 2200, 2000, 2500, 2500, 3000, 2500, 3000, 2700, 2600, 2300, 3300, 3300, 2500, 2200, 2700, 1000]
 
     # 버거토핑 리스트
-    topping_lst = ["01.반숙계란토핑","02.치즈토핑","03.토마토토핑","04.베이컨토핑","05.비프페티토핑"]
+    topping_lst = ["01.반숙계란토핑", "02.치즈토핑", "03.토마토토핑", "04.베이컨토핑", "05.비프페티토핑"]
     topping_price = [1000, 800, 600, 700, 2100]
 
     # 세트 드링크 리스트
     set_drink_lst = ["01.펩시콜라(R)", "02.레몬에이드(L)", "03.아이스아메리카노(R)", "04.아이스아메리카노(L)", "05.허쉬핫초코", "06.아메리카노",
-                     "07.캐모마일티","08.아이스티(R)","09.아이스티(L)",  "10.레몬에이드(R)","11.카페라떼(살균우유)","12.아이스카페라떼(살균우유)",
-                     "13.칠성사이다(R)","14.펩시제로(R)","15.펩시콜라(L)","16.칠성사이다(L)","17.펩시제로(L)","18.아이시스에코","19.오렌지주스(PET)"]
+                     "07.캐모마일티", "08.아이스티(R)", "09.아이스티(L)", "10.레몬에이드(R)", "11.카페라떼(살균우유)", "12.아이스카페라떼(살균우유)",
+                     "13.칠성사이다(R)", "14.펩시제로(R)", "15.펩시콜라(L)", "16.칠성사이다(L)", "17.펩시제로(L)", "18.아이시스에코",
+                     "19.오렌지주스(PET)"]
     set_drink_price = [0, 1000, 500, 1000, 500, 500, 200, 300, 600, 700, 1300, 1300, 0, 0, 200, 200, 200, 0, 500]
 
     # 진이 부분
 
     # 디저트 메뉴 리스트
-    dessert_lst = ["01.쥐포튀김","02.못난이치즈감자","03.NEW치킨너겟","04.양념너겟","05.포테이토","06.포테이토(L)","07.양념감자","08.치즈스틱","09.롱치즈스틱","10.통오징어링",
-                   "11.코울슬로","12.토네이도더블초코","13.토네이도망고젤리","14.토네이도-초코쿠키","15.토네이도-스트로베리","16.토네이도요고트맛초코쿠키","17.토네이도요거트맛망고젤리",
-                   "18.토네이도요거트맛스트로베리","19.선데아이스크림-허쉬초코","20.선데아이스크림-스트로베리","21.선데아이스크림-플레인","22.소프트콘","23.지파이허바네로L",
-                   "24.지파이 고소한맛S","25.치킨휠레4조각","26.치킨휠레2조각","27. 화이어윙4조각","28. 화이어윙2조각","29.순살치킨-풀팩","30.순살치킨-하프팩","31.치킨다리 1조각",
-                   "32.청양마요소스","33.크리미마늘소스","34.크리미양념소스","35.데리야끼소스","36.머스타드소스","37.잠발라야소스","38.실비김치맛시즈닝","39.어니언시즈닝",
-                   "40.치즈시즈닝","41.칠리시즈닝","42.허니머스타드","43.스위트앤사워"]
-    dessert_price_lst = [4200,3500,3100,3300,2000,
-                         2500,2600,2800,2400,2800,
-                         1900,3200,3200,3200,3200,
-                         3400,3400,3400,2300,2300,
-                         2100,1300,5500,4500,5300,
-                         3100,5500,3200,17500,10500,
-                         2900,200,500,500,500,500,300,
-                         200,200,200,200,100,100]
+    dessert_lst = ["01.쥐포튀김", "02.못난이치즈감자", "03.NEW치킨너겟", "04.양념너겟", "05.포테이토", "06.포테이토(L)", "07.양념감자", "08.치즈스틱",
+                   "09.롱치즈스틱", "10.통오징어링",
+                   "11.코울슬로", "12.토네이도더블초코", "13.토네이도망고젤리", "14.토네이도-초코쿠키", "15.토네이도-스트로베리", "16.토네이도요고트맛초코쿠키",
+                   "17.토네이도요거트맛망고젤리",
+                   "18.토네이도요거트맛스트로베리", "19.선데아이스크림-허쉬초코", "20.선데아이스크림-스트로베리", "21.선데아이스크림-플레인", "22.소프트콘",
+                   "23.지파이허바네로L",
+                   "24.지파이 고소한맛S", "25.치킨휠레4조각", "26.치킨휠레2조각", "27. 화이어윙4조각", "28. 화이어윙2조각", "29.순살치킨-풀팩",
+                   "30.순살치킨-하프팩", "31.치킨다리 1조각",
+                   "32.청양마요소스", "33.크리미마늘소스", "34.크리미양념소스", "35.데리야끼소스", "36.머스타드소스", "37.잠발라야소스", "38.실비김치맛시즈닝",
+                   "39.어니언시즈닝",
+                   "40.치즈시즈닝", "41.칠리시즈닝", "42.허니머스타드", "43.스위트앤사워"]
+    dessert_price_lst = [4200, 3500, 3100, 3300, 2000,
+                         2500, 2600, 2800, 2400, 2800,
+                         1900, 3200, 3200, 3200, 3200,
+                         3400, 3400, 3400, 2300, 2300,
+                         2100, 1300, 5500, 4500, 5300,
+                         3100, 5500, 3200, 17500, 10500,
+                         2900, 200, 500, 500, 500, 500, 300,
+                         200, 200, 200, 200, 100, 100]
 
     # 세트 디저트 첫번째줄 메뉴 리스트
-    set_dessert_lst = ["01.포테이토","02.쥐포튀김","03.못난이치즈감자","04.양념감자","05.치즈스틱","06.NEW치킨너겟","07.포테이토(L)","08.지파이하바네로L",
-                    "09.지파이고소한맛", "10.통오징어링","11.선데이아이스크림-플레인","12.토네이도-초코쿠키","13.토네이도-스트로베리]",
-                        "14.토네이도요거트맛초코쿠키","15.토네이도요거트맛망고젤리","16.토네이도요거트맛스트로베","17.롱치즈스틱",
-                        "18.코울슬로","19.치킨다리 1조각","20.화이어윙-2","21.치킨휠레-2","22.선데이아이스크림-허쉬초코",
-                        "23.선데이아이스크르림-스트로베","24.양념너겟"]
+    set_dessert_lst = ["01.포테이토", "02.쥐포튀김", "03.못난이치즈감자", "04.양념감자", "05.치즈스틱", "06.NEW치킨너겟", "07.포테이토(L)",
+                       "08.지파이하바네로L",
+                       "09.지파이고소한맛", "10.통오징어링", "11.선데이아이스크림-플레인", "12.토네이도-초코쿠키", "13.토네이도-스트로베리]",
+                       "14.토네이도요거트맛초코쿠키", "15.토네이도요거트맛망고젤리", "16.토네이도요거트맛스트로베", "17.롱치즈스틱",
+                       "18.코울슬로", "19.치킨다리 1조각", "20.화이어윙-2", "21.치킨휠레-2", "22.선데이아이스크림-허쉬초코",
+                       "23.선데이아이스크르림-스트로베", "24.양념너겟"]
 
     # 세트 디저트 첫번째줄 가격 리스트
-    set_dessert_price_lst = [0, 2200, 1500, 600, 800, 1100, 500, 3500, 2500, 800, 100, 1200, 1200, 1400,1400,1400,400,0,900,1200,1100,300,300,1300]
-
+    set_dessert_price_lst = [0, 2200, 1500, 600, 800, 1100, 500, 3500, 2500, 800, 100, 1200, 1200, 1400, 1400, 1400,
+                             400, 0, 900, 1200, 1100, 300, 300, 1300]
 
     # # 세트 디저트 두번째줄 메뉴 리스트
     # set_dessert2_lst = ["14.토네이도요거트맛초코쿠키","15.토네이도요거트맛망고젤리","16.토네이도요거트맛스트로베","17.롱치즈스틱",
@@ -180,23 +205,24 @@ while True:
     # set_dessert2_price_lst = [1400,1400,1400,400,0,900,1200,1100,300,300,1300]
 
     # 시즈닝 종류 리스트
-    seasoning_lst = ["01.치즈시즈닝", "02.칠리시즈닝","03.어니언시즈닝","04.실비김치맛시즈닝"] #"5.선택 안함" 삭제
+    seasoning_lst = ["01.치즈시즈닝", "02.칠리시즈닝", "03.어니언시즈닝", "04.실비김치맛시즈닝"]  # "5.선택 안함" 삭제
 
     # 음료/커피 메뉴 리스트
-    drink_lst = ["01.펩시콜라 (L)","02.칠성사이다 (L)","03.펩시콜라 (R)","04.칠성사이다 (R)","05.펩시콜라 (S)","06.칠성사이다 (S)",
-                 "07.펩시제로 (L)","08.펩시제로 (R)","09.아메리카노","10.아이스아메리카노 (R)","11.아이스아메리카노 (L)","12.허쉬핫초코",
-                 "13.레몬에이드 (L)","14.레몬에이드 (R)","15.아이스티 (L)","16.아이스티 (R)","17.아이스카페라떼 (살균우유)",
-                 "18.카페라떼 (살균우유)","19.오렌지주스 (PET)","20.캐모마일티","21.애플캐모마일티","22.아이시스에코"]
+    drink_lst = ["01.펩시콜라 (L)", "02.칠성사이다 (L)", "03.펩시콜라 (R)", "04.칠성사이다 (R)", "05.펩시콜라 (S)", "06.칠성사이다 (S)",
+                 "07.펩시제로 (L)", "08.펩시제로 (R)", "09.아메리카노", "10.아이스아메리카노 (R)", "11.아이스아메리카노 (L)", "12.허쉬핫초코",
+                 "13.레몬에이드 (L)", "14.레몬에이드 (R)", "15.아이스티 (L)", "16.아이스티 (R)", "17.아이스카페라떼 (살균우유)",
+                 "18.카페라떼 (살균우유)", "19.오렌지주스 (PET)", "20.캐모마일티", "21.애플캐모마일티", "22.아이시스에코"]
 
     # 음료/커피 가격 리스트
-    drink_price_lst = [2200,2200,2000,2000,1400,
-                       1400,2200,2000,2500,2500,
-                       3000,2500,3000,2700,2600,
-                       2300,3300,3300,2500,2200,2700,1000]
+    drink_price_lst = [2200, 2200, 2000, 2000, 1400,
+                       1400, 2200, 2000, 2500, 2500,
+                       3000, 2500, 3000, 2700, 2600,
+                       2300, 3300, 3300, 2500, 2200, 2700, 1000]
     # 진이 부분 끝
     # 카테고리 정의
     category = ["1.버거", "2.디저트/치킨", "3.음료/커피"]
     category_in_burger = ["1.버거만", "2.콤보", "3.세트"]
+
 
     # 메뉴명 리스트와 가격 리스트 요소 갯수 동일 확인 완료.
     # print("버거리스트: ", len(burger_lst), len(burger_price))
@@ -207,10 +233,11 @@ while True:
     # 숫자 외 공백 입력시 무시하는 함수
     def onlyNum(numStr):
         numStr = str(numStr)
-        numStr = numStr.replace(' ','')
+        numStr = numStr.replace(' ', '')
         numStr = numStr.strip(',. ')
         num = int(numStr)
         return num
+
 
     # 장바구니 메뉴, 메뉴별 가격, 선택이 끝났는지, 총 결제 금액 선언
     order_items = []
@@ -225,8 +252,8 @@ while True:
     print_logo()
 
     # 카테고리 메뉴 선택 시작
-    turn = 0 # for문을 사용하는 대신 변수 i 만 남겨놓은 상황인데 변수명을 변경할 필요가 있음.
-    while end_selected == False :
+    turn = 0  # for문을 사용하는 대신 변수 i 만 남겨놓은 상황인데 변수명을 변경할 필요가 있음.
+    while end_selected == False:
         order_items.append([])
         order_price.append([])
         # 카테고리 선택 출력 창
@@ -236,10 +263,17 @@ while True:
         print("\n", category[0], "\n", category[1], "\n", category[2], "\n")
 
         print_line()
-        selected_category = onlyNum(input("카테고리를 선택해주세요.>> "))
-        while selected_category not in range(1, len(category) + 1):
-            print("1~3 사이로 입력해주세요.")
-            selected_category = onlyNum(input("숫자 입력: "))
+        selected_category = 0 # selected_category 초기화
+        while True: # 유효한 입력이 들어올 때까지 반복
+            try:
+                selected_category = onlyNum(input("카테고리를 선택해주세요.>> "))
+                if selected_category in range(1, len(category) + 1):
+                    break
+                else:
+                    print("1~3 사이로 입력해주세요.")
+            except ValueError:
+                print("유효한 숫자를 입력해주세요.")
+
 
         os.system("clear")
         print_logo()
@@ -252,7 +286,16 @@ while True:
             print("\n", category_in_burger[0], "\n", category_in_burger[1], "\n", category_in_burger[2], "\n")
             print_line()
 
-            selected_burger_set = onlyNum(input("버거만, 콤보, 세트 중 골라주세요.>> "))
+            selected_burger_set = 0 # selected_burger_set 초기화
+            while True: # 유효한 입력이 들어올 때까지 반복
+                try:
+                    selected_burger_set = onlyNum(input("버거만, 콤보, 세트 중 골라주세요.>> "))
+                    if selected_burger_set in [1, 2, 3]:
+                        break
+                    else:
+                        print("1, 2, 3 중 하나를 입력해주세요.")
+                except ValueError:
+                    print("유효한 숫자를 입력해주세요.")
 
             os.system("clear")
             print_logo()
@@ -268,7 +311,7 @@ while True:
                     row = ""
                     for j in range(i, min(i + 2, len(burger_lst))):
                         name = pad_manual(burger_lst[j], 33)
-                        num_format = format(int(burger_price[j]),",")
+                        num_format = format(int(burger_price[j]), ",")
                         price = f"{num_format:>7}"
                         row += f"{name}{price}    "
                     print(row)
@@ -281,9 +324,7 @@ while True:
                     if selected_burger == "" or selected_burger == " ":
                         print("다시 입력해주세요.")
 
-                    elif selected_burger in ["01", "02", "03", "04", "05", "06", "07", "08", "09",
-                                             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"                                                                                                        "14", "15",
-                                             "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]:
+                    elif selected_burger in [str(i).zfill(2) for i in range(1, 10)] + [str(i) for i in range(1, 26)]:
                         break
 
                     else:
@@ -322,10 +363,10 @@ while True:
                     if selected_topping == "" or selected_topping == " ":
                         print("다시 입력해주세요.")
 
-                    elif selected_topping in ["1", "2", "3", "4", "5","01", "02", "03", "04", "05"]:
+                    elif selected_topping in [str(i).zfill(2) for i in range(1, 6)] + [str(i) for i in range(1, 6)]:
                         break
 
-                    elif selected_topping == "0" :
+                    elif selected_topping == "0":
                         break
 
                     else:
@@ -378,9 +419,7 @@ while True:
                     if selected_burger == "" or selected_burger == " ":
                         print("다시 입력해주세요.")
 
-                    elif selected_burger in ["01", "02", "03", "04", "05", "06", "07", "08", "09",
-                                             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
-                                             "13","14","15","16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]:
+                    elif selected_burger in [str(i).zfill(2) for i in range(1, 10)] + [str(i) for i in range(1, 26)]:
                         break
 
                     else:
@@ -421,15 +460,13 @@ while True:
                     if selected_set_drink == "" or selected_set_drink == " ":
                         print("다시 입력해주세요.")
 
-                    elif selected_set_drink in ["01", "02", "03", "04", "05", "06", "07", "08", "09",
-                                                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
-                                             "13", "14", "15", "16", "17", "18", "19"]:
+                    elif selected_set_drink in [str(i).zfill(2) for i in range(1, 10)] + [str(i) for i in range(1, 20)]:
                         break
 
                     else:
                         print("1~19 까지 숫자를 입력해주세요.")
 
-                while selected_set_drink == " " or selected_set_drink == "" or selected_set_drink == 0:
+                while selected_set_drink == " " or selected_set_drink == "" or selected_set_drink == "0":
                     print("System: 필수선택항목입니다.")
                     selected_set_drink = onlyNum(input("세트 드링크 숫자 입력>>"))
 
@@ -466,10 +503,10 @@ while True:
                     if selected_topping == "" or selected_topping == " ":
                         print("다시 입력해주세요.")
 
-                    elif selected_topping in ["01", "02", "03", "04", "05","1", "2", "3", "4", "5"]:
+                    elif selected_topping in [str(i).zfill(2) for i in range(1, 6)] + [str(i) for i in range(1, 6)]:
                         break
 
-                    elif selected_topping == "0" :
+                    elif selected_topping == "0":
                         break
 
                     else:
@@ -520,9 +557,7 @@ while True:
                     if selected_burger == "" or selected_burger == " ":
                         print("다시 입력해주세요.")
 
-                    elif selected_burger in ["01", "02", "03", "04", "05","06","07","08","09",
-                                             "1", "2", "3", "4", "5","6","7","8","9","10","11","12","13"
-                                             "14","15","16","17","18","19","20","21","22","23","24","25"]:
+                    elif selected_burger in [str(i).zfill(2) for i in range(1, 10)] + [str(i) for i in range(1, 26)]:
                         break
 
                     else:
@@ -562,9 +597,7 @@ while True:
                     if set_dessert == "" or set_dessert == " ":
                         print("다시 입력해주세요.")
 
-                    elif set_dessert in ["01", "02", "03", "04", "05", "06", "07", "08", "09",
-                                         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
-                                          "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]:
+                    elif set_dessert in [str(i).zfill(2) for i in range(1, 10)] + [str(i) for i in range(1, 25)]:
                         # print(set_dessert1)
 
                         set_dessert = int(set_dessert)
@@ -580,11 +613,8 @@ while True:
                                 print(set_dessert_lst[i], "을(를) 선택하셨습니다.")
                                 order_items[turn].append(set_dessert_lst[i])
                                 order_price[turn].append(set_dessert_price_lst[i])
+                                total_price += set_dessert_price_lst[i]
 
-                                # print("")
-                                # print("[장바구니]")
-                                # print(cart1_menu)
-                                # print(cart1_price)
 
                         break
 
@@ -611,9 +641,7 @@ while True:
                     if selected_set_drink == "" or selected_set_drink == " ":
                         print("다시 입력해주세요.")
 
-                    elif selected_set_drink in ["01", "02", "03", "04", "05", "06", "07", "08", "09",
-                                                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
-                                                "13", "14", "15", "16", "17", "18", "19"]:
+                    elif selected_set_drink in [str(i).zfill(2) for i in range(1, 10)] + [str(i) for i in range(1, 20)]:
                         break
 
                     else:
@@ -653,10 +681,10 @@ while True:
                     if selected_topping == "" or selected_topping == " ":
                         print("다시 입력해주세요.")
 
-                    elif selected_topping in ["01", "02", "03", "04", "05","1", "2", "3", "4", "5"]:
+                    elif selected_topping in [str(i).zfill(2) for i in range(1, 6)] + [str(i) for i in range(1, 6)]:
                         break
 
-                    elif selected_topping == "0" :
+                    elif selected_topping == "0":
                         break
 
                     else:
@@ -688,7 +716,7 @@ while True:
                 print_logo()
 
         elif selected_category == 2:
-        # elif choose_kategorie in ["1"]:
+            # elif choose_kategorie in ["1"]:
             print("")
 
             while True:
@@ -708,11 +736,7 @@ while True:
                 if choose_dessert == "" or choose_dessert == " ":
                     print("다시 입력해주세요.")
 
-                elif choose_dessert in ["01", "02", "03", "04", "05", "06", "07", "08", "09",
-                                        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
-                                        "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26",
-                                        "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38",
-                                        "39", "40", "41", "42", "43"]:
+                elif choose_dessert in [str(i).zfill(2) for i in range(1, 10)] + [str(i) for i in range(1, 44)]:
                     break
 
                 else:
@@ -721,7 +745,7 @@ while True:
             # 숫자로 변환
             choose_dessert = int(choose_dessert)
             # 장바구니
-            order_items[turn] = [] # cart1_menu = []에서 변경
+            order_items[turn] = []  # cart1_menu = []에서 변경
             order_price[turn] = []  # cart1_price = 0 에서 변경
             # cart2_menu = [] / 삭제 order_items[i] cart1_menu와 합쳐짐
 
@@ -761,7 +785,7 @@ while True:
                     if choose_dessert == "" or choose_dessert == " ":
                         print("다시 입력해주세요.")
 
-                    elif choose_seasoning in ["1", "2", "3", "4", "5"]:
+                    elif choose_seasoning in [str(i) for i in range(1, 6)]:
                         break
 
                     else:
@@ -791,7 +815,7 @@ while True:
 
         elif selected_category == 3:
 
-        # elif choose_kategorie in ["2"]:
+            # elif choose_kategorie in ["2"]:
             print("")
             print_line()
             for i in range(0, len(drink_lst), 2):
@@ -808,9 +832,7 @@ while True:
             if choose_drink == "" or choose_drink == " ":
                 print("다시 입력해주세요.")
 
-            elif choose_drink in ["01", "02", "03", "04", "05", "06", "07", "08", "09",
-                                  "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
-                                  "15", "16", "17", "18", "19", "20", "21", "22"]:
+            elif choose_drink in [str(i).zfill(2) for i in range(1, 10)] + [str(i) for i in range(1, 23)]:
 
                 choose_drink = int(choose_drink)
 
@@ -858,18 +880,19 @@ while True:
             os.system("clear")
             print_logo()
 
-        #
-        # # 메뉴 항목을 리스트로 정의 (번호와 매칭하기 쉽게 순서대로 작성)
-        # menu_items = []
+    #
+    # # 메뉴 항목을 리스트로 정의 (번호와 매칭하기 쉽게 순서대로 작성)
+    # menu_items = []
 
-        # 주문 번호 초기값 지정 (예: 1001부터 시작) - 0이나 1로 시작하면 헷갈릴 수 있기 때문에
-        # order_number = 1001
+    # 주문 번호 초기값 지정 (예: 1001부터 시작) - 0이나 1로 시작하면 헷갈릴 수 있기 때문에
+    # order_number = 1001
 
-        # # 사용자가 선택한 주문 내역을 저장할 빈 리스트
-        # order_items = []
+    # # 사용자가 선택한 주문 내역을 저장할 빈 리스트
+    # order_items = []
 
-        # 무한 반복: 사용자가 주문 완료할 때까지 계속 메뉴 보여주고 입력 받음
-    while True:
+    # 무한 반복: 사용자가 주문 완료할 때까지 계속 메뉴 보여주고 입력 받음
+    order_confirm_loop = True # 주문확인 루프를 위한 변수 추가
+    while order_confirm_loop:
         print("주문내역을 확인해주세요.")
         # for문을 이용해 메뉴 리스트의 길이만큼 반복하며 메뉴 출력
         # i는 0부터 시작하는 인덱스, 메뉴 번호는 i+1로 출력
@@ -880,67 +903,87 @@ while True:
             for j in range(len(order_items[i])):
                 menu_text = order_items[i][j]
                 if j >= 1:
-                    no_num_menu = f"    {menu_text[3: ]}"
+                    no_num_menu = f"    {menu_text[3:]}"
                 else:
-                    no_num_menu = f"{menu_text[3: ]}"
+                    no_num_menu = f"{menu_text[3:]}"
                 each_menu = pad_manual(no_num_menu, 70)
                 each_price = int(order_price[i][j])
                 each_price_format = format(each_price, ",")
 
                 price = f"{each_price_format:>7}"
                 print(f"{each_menu}{price}    ")
+        print(f"총 결제 금액: {total_price}원") # 총 금액 추가
         # --- 결제 취소하면 이전 단계인 버거주문으로 돌아가도록 수정함 ---
-        print("0. 결제 하시려면 0번")
-        print("1. 결제를 취소 하시려면 1번")
-        try:
-            choice = int(input("선택하세요 : "))
-        except ValueError:
-            print("다시 입력해주세요.")
-            continue  # 숫자가 아닌 입력 시 다시 입력 요청
-        if choice == 0:
+        print("0. 이전 단계(메뉴 선택)로 돌아가려면 0번") # 설명 수정
+        print("1. 결제 진행") # 설명 수정
+        print("9. 처음으로 돌아가려면 9번") # 추가
+        choice = -1 # choice 초기화
+        while True: # 유효한 입력이 들어올 때까지 반복
+            try:
+                choice = input("선택하세요 : ").strip()
+                if choice == "": # 공백 또는 엔터 입력 시
+                    print("다시 입력해주세요.")
+                elif choice in ["0", "1", "9"]: # 유효한 숫자 입력 시
+                    choice = int(choice)
+                    break
+                else: # 0과 1 이외의 숫자 입력 시
+                    print("다시 입력해주세요.")
+            except ValueError: # 숫자가 아닌 입력 시
+                print("다시 입력해주세요.")
+
+        if choice == 0: # 이전 단계(메뉴 선택)로 돌아가기
+            print("이전 단계로 돌아갑니다.")
+            time.sleep(1)
+            os.system("clear")
+            total_price = 0 # 주문 내역 초기화
+            order_items = []
+            order_price = []
+            end_selected = False # 메뉴 선택 루프를 다시 시작
+            turn = 0
+            order_confirm_loop = False # 주문확인 루프 종료
+            break # 바깥 while 루프(메인 주문 프로세스)의 시작으로 돌아감
+
+        elif choice == 1: # 결제 진행
             if not order_items:
                 print("주문 내역이 없습니다. 최소 1개 이상 선택하세요.")
                 continue
             print("\n===============================")
-            print("       주문이 완료되었습니다       ")
+            print("       결제를 진행합니다       ") # 메시지 수정
             print("===============================")
-            print("주문 번호:", order_number)
-            print("주문 내역:")
-            for item_list, price_list in zip(order_items, order_price):
-                for item, price in zip(item_list, price_list):
-                    print(f"- {item} ({price}원)")
-            print("감사합니다. 잠시만 기다려 주세요.")
-            print("===============================\n")
-            break
-        elif choice == 1:
-            print("결제가 취소되었습니다. 다시 주문을 시작합니다.")
-            time.sleep(2)
-            os.system("clear")
-            total_price = 0
-            order_items = []
-            order_price = []
-            end_selected = False
-            turn = 0
-            break  # 결제 취소 시, 현재 주문 프로세스(루프)를 종료하고 상위 루프로 돌아감
-        else:
+            order_confirm_loop = False # 주문확인 루프 종료
+            break # 결제 흐름으로 넘어감
+
+        elif choice == 9: # 처음으로 돌아가기
+            while True:
+                confirm_cancel = input("처음으로 돌아가시겠습니까?(Y/N) >>").strip().lower()
+                if confirm_cancel in ["y", "n"]:
+                    break
+                else:
+                    print("Y 또는 N을 입력해주세요.")
+            if confirm_cancel == 'y':
+                print("결제가 취소되었습니다. 다시 주문을 시작합니다.")
+                time.sleep(2)
+                os.system("clear")
+                total_price = 0
+                order_items = []
+                order_price = []
+                end_selected = False
+                turn = 0
+                order_confirm_loop = False # 주문확인 루프 종료
+                break  # 가장 바깥 while 루프(메인 주문 프로세스)의 시작으로 돌아감
+            else:
+                continue # 취소하지 않으면 다시 주문확인 화면으로 돌아감
+        else: # 여기는 원래 0,1,9 외의 입력이 들어오면 다시 입력하게 했으므로 불필요하지만 혹시 몰라 남겨둠
             print("다시 입력해주세요.")
-            # 0, 1 이외의 숫자가 입력되어도 동일 메뉴가 계속 추가되는 현상을 방지하기 위해 continue 추가
             continue
-    if choice == 1:  # 주문이 취소되었을 경우, 메인 주문 루프의 처음부터 다시 시작하세요.
-        continue
-        os.system("clear")
-        # 주문 완료했으므로 반복 종료
-        break
-    # 1부터 메뉴 길이까지의 번호를 입력한 경우 메뉴 추가 처리1
-    elif 1 <= choice <= len(order_items):
-        # 선택한 메뉴를 주문 내역 리스트에 추가
-        order_items.append(order_items[choice - 1])
-        # 추가된 메뉴 이름 출력 (친절한 안내)
-        print(f"{order_items[choice - 1]}가 추가되었습니다.")
-    # 0과 1~메뉴번호 범위 외 숫자 입력 시 안내 메시지 출력
-    else:
-        print("유효하지 않은 번호입니다. 다시 입력해 주세요.")
-        print_logo()
+
+
+    if not order_confirm_loop: # 주문확인 루프를 벗어났다면, 즉 0, 1, 9 중 하나를 선택했다면
+        if choice == 0 or (choice == 9 and confirm_cancel == 'y'):
+            continue # 이 경우에는 가장 바깥쪽의 주문 루프를 다시 시작
+        else: # choice가 1인 경우 (결제 진행)
+            pass # 아래 결제 로직으로 진행
+
 
     os.system("clear")
     print_logo()
@@ -958,7 +1001,17 @@ while True:
         print("5.페이코")
         print("6.처음으로")
         print_line()
-        payment_method = int(input("결제방법을 선택해 주세요 >> "))
+        payment_method = 0 # payment_method 초기화
+        while True: # 유효한 입력이 들어올 때까지 반복
+            try:
+                payment_method = int(input("결제방법을 선택해 주세요 >> "))
+                if payment_method in range(1, 7):
+                    break
+                else:
+                    print("1~6 사이의 숫자를 입력해주세요.")
+            except ValueError:
+                print("유효한 숫자를 입력해주세요.")
+
         if payment_method == 1:
             os.system("clear")
             print_logo()
@@ -983,18 +1036,32 @@ while True:
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            card_number = int(input("카드번호: "))
+            card_number = 0 # card_number 초기화
+            while True: # 유효한 입력이 들어올 때까지 반복
+                try:
+                    card_number = input("카드번호: ").strip() # 입력값을 문자열로 받아서 처리
+                    if card_number == "0" or card_number == "9":
+                        card_number = int(card_number) # 숫자 0, 9로 변환
+                        break
+                    elif card_number.isdigit(): # 숫자로만 구성되어 있는지 확인
+                        card_number = int(card_number)
+                        break
+                    else:
+                        print("다시 입력해주세요.")
+                except ValueError:
+                    print("유효한 숫자를 입력해주세요.")
+
             if card_number == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            if card_number == 9:
+            elif card_number == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
                     os.system("clear")
-            if card_number != 0 and card_number != 9:
+            else:
                 os.system("clear")
                 print_logo()
                 print("카드 데이터 로딩 완료")
@@ -1015,17 +1082,30 @@ while True:
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            barcode_number = int(input("바코드번호:"))
+            barcode_number = 0 # barcode_number 초기화
+            while True: # 유효한 입력이 들어올 때까지 반복
+                try:
+                    barcode_number = input("바코드번호:").strip()
+                    if barcode_number == "0" or barcode_number == "9":
+                        barcode_number = int(barcode_number)
+                        break
+                    elif barcode_number.isdigit():
+                        barcode_number = int(barcode_number)
+                        break
+                    else:
+                        print("다시 입력해주세요.")
+                except ValueError:
+                    print("유효한 숫자를 입력해주세요.")
             if barcode_number == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            if barcode_number == 9:
+            elif barcode_number == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
-            if barcode_number != 0 and barcode_number != 9:
+            else:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
@@ -1045,17 +1125,30 @@ while True:
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            exchange_coupon = int(input("바코드번호:"))
+            exchange_coupon = 0 # exchange_coupon 초기화
+            while True: # 유효한 입력이 들어올 때까지 반복
+                try:
+                    exchange_coupon = input("바코드번호:").strip()
+                    if exchange_coupon == "0" or exchange_coupon == "9":
+                        exchange_coupon = int(exchange_coupon)
+                        break
+                    elif exchange_coupon.isdigit():
+                        exchange_coupon = int(exchange_coupon)
+                        break
+                    else:
+                        print("다시 입력해주세요.")
+                except ValueError:
+                    print("유효한 숫자를 입력해주세요.")
             if exchange_coupon == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            if exchange_coupon == 9:
+            elif exchange_coupon == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
-            if exchange_coupon != 0 and exchange_coupon != 9:
+            else:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
@@ -1075,17 +1168,30 @@ while True:
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            L_pay = int(input("바코드번호:"))
+            L_pay = 0 # L_pay 초기화
+            while True: # 유효한 입력이 들어올 때까지 반복
+                try:
+                    L_pay = input("바코드번호:").strip()
+                    if L_pay == "0" or L_pay == "9":
+                        L_pay = int(L_pay)
+                        break
+                    elif L_pay.isdigit():
+                        L_pay = int(L_pay)
+                        break
+                    else:
+                        print("다시 입력해주세요.")
+                except ValueError:
+                    print("유효한 숫자를 입력해주세요.")
             if L_pay == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            if L_pay == 9:
+            elif L_pay == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
-            if L_pay != 0 and L_pay != 9:
+            else:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
@@ -1105,17 +1211,30 @@ while True:
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            payco_barcode = int(input("바코드번호:"))
+            payco_barcode = 0 # payco_barcode 초기화
+            while True: # 유효한 입력이 들어올 때까지 반복
+                try:
+                    payco_barcode = input("바코드번호:").strip()
+                    if payco_barcode == "0" or payco_barcode == "9":
+                        payco_barcode = int(payco_barcode)
+                        break
+                    elif payco_barcode.isdigit():
+                        payco_barcode = int(payco_barcode)
+                        break
+                    else:
+                        print("다시 입력해주세요.")
+                except ValueError:
+                    print("유효한 숫자를 입력해주세요.")
             if payco_barcode == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            if payco_barcode == 9:
+            elif payco_barcode == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
-            if payco_barcode != 0 and payco_barcode != 9:
+            else:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
@@ -1124,7 +1243,7 @@ while True:
         elif payment_method == 6:
             if __name__ == "__main__":  # 이 함수가 재시작
                 main()
-        else:
+        else: # payment_method의 유효성 검사에서 걸리므로 이 부분은 사실상 도달하지 않음
             os.system("clear")
             print_logo()
             print("결제방법을 다시 선택해 주세요.")
@@ -1150,18 +1269,15 @@ while True:
     print(f"{"1.영수증 출력 2.영수증 출력(X)":^67}")
     print(f"{"출력한 주문번호를 받아가세요":^65}")
     print(f"{"영수증 유무 숫자를 입력하세요:":^66}")
-    receipt = input()  # 영수증
-    os.system("clear")  # 위에 코드 안보이게 해줌
-    print_logo()
-
-    while receipt not in ("1", "2"):
+    receipt = "" # receipt 초기화
+    while True: # 유효한 입력이 들어올 때까지 반복
+        receipt = input().strip() # 영수증
         if receipt in ["1", "2"]:
             break
         else:
             print(f"{"다시 입력해주세요.":^67}")
             print(f"{"1.영수증 출력 2.영수증 출력(X)":^67}")
             print(f"{"영수증 유무 숫자를 입력하세요:":^66}")
-            receipt = input()  # 영수증
     if receipt == "1":
         print(f"{"결제가 완료되었습니다.":^67}.")
         print(f"{"주문번호":^67}")
@@ -1231,9 +1347,9 @@ while True:
             for i in range(len(order_items1)):
                 print(f"{f"{order_items1[i]}  {order_price1[i]}":^40}")  # 시킨 메뉴
         elif select == 2:
-            print(f"{f"포장":^40}")
+            print(f"{"포장":^40}")
         print("￣" * 40)
-        print(f"{f"합  계                    {total_price}":^40}")  # 마지막 부분에 합계 필요
+        print(f"{"합  계                    {total_price}":^40}")  # 마지막 부분에 합계 필요
         print("￣" * 40)
         print(f"{"wi-fi 비밀번호 00000000":^40}")
         print(f"{"║█║▌║█║▌│║▌║▌█║":^40}")
