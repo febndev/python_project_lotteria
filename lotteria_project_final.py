@@ -1,11 +1,32 @@
-
-import os
-
 waiting_number=1
 order_number = 1  # 주문번호 끄면 초기화됌
 import datetime
-import time
-import os
+import os, sys, time
+def main():
+    print("AutoRes is starting")
+    executable = sys.executable
+    args = sys.argv[:]
+    args.insert(0, sys.executable)
+
+    time.sleep(1)
+    print("Respawning")
+    os.execvp(executable, args)
+
+def print_logo():
+    print("""
+    ===============================================================
+    ██╗      ██████╗ ████████╗████████╗███████╗██████╗ ██╗ ██████╗
+    ██║     ██╔═══██╗╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗██║██╔═══██╗
+    ██║     ██║   ██║   ██║      ██║   █████╗  ██████╔╝██║██║█████║
+    ██║     ██║   ██║   ██║      ██║   ██╔══╝  ██╔══██╗██║██║   ██║
+    ███████╗╚██████╔╝   ██║      ██║   ███████╗██║  ██║██║██║    █║
+    ╚══════╝ ╚═════╝    ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝    ╚╝
+    ===============================================================
+    """)
+
+def print_line():
+    print("=" * 67)
+
 while True:
     print("1.시작 2.대기번호 및 주문번호 초기화")
     manager = input()
@@ -787,6 +808,7 @@ while True:
 
             print_logo()
 
+    os.system("clear")
     print_logo()
     print("금액을 확인하신 후 결제수단을 선택해 주세요.")
     print_line()
@@ -800,6 +822,7 @@ while True:
         print("3.교환권")
         print("4.L.pay")
         print("5.페이코")
+        print("6.처음으로")
         print_line()
         payment_method = int(input("결제방법을 선택해 주세요 >> "))
         if payment_method == 1:
@@ -824,32 +847,29 @@ while True:
                       ╚════════════════╝
             """)
             print_line()
-            print("취소하시려면 0을 입력하세요.")
+            print("이전으로 가실려면 0을 입력해주세요.")
+            print("처음으로 가실려면 9를 입력해주세요.")
             card_number = int(input("카드번호: "))
-            if card_number != 0:
-                os.system("clear")
-                print_logo()
-                print_line()
-                print("카드 데이터 로딩 완료")
-                print_line()
-                os.system("clear")
-                print_logo()
-                print_line()
-                print("결제가 완료되었습니다.")
-                print_line()
-                os.system("clear")
-                break
             if card_number == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
+            if card_number == 9:
+                if __name__ == "__main__":  # 이 함수가 재시작
+                    main()
+            if card_number != 0 and card_number != 9:
+                os.system("clear")
+                print_logo()
+                print("카드 데이터 로딩 완료")
+                print("결제가 완료되었습니다.")
+                print_line()
+                break
         elif payment_method == 2:
             os.system("clear")
             print_logo()
             print("바코드를 스캔해주세요.")
-            print_line()
             # 바코드 그림
             print()
             b = "간편결제"
@@ -858,101 +878,117 @@ while True:
             a = "1234567"
             print(f"{a:^15}")
             print_line()
-            print("취소하시려면 0을 입력하세요.")
+            print("이전으로 가실려면 0을 입력해주세요.")
+            print("처음으로 가실려면 9를 입력해주세요.")
             barcode_number = int(input("바코드번호:"))
-            if barcode_number != 0:
-                os.system("clear")
-                print_logo()
-                print("결제가 완료되었습니다.")
-                print_line()
-                break
             if barcode_number == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-        elif payment_method == 3:
-            os.system("clear")
-            print_logo()
-            print("교환권 바코드를 스캔해주세요.")
-            print_line()
-            # 바코드 그림
-            print()
-            b = "교환권"
-            print(f"{b:^13}")
-            print_line()
-            print("║█║▌║█║▌│║▌║▌█║")
-            a = "1234567"
-            print(f"{a:^15}")
-            print("취소하시려면 0을 입력하세요.")
-            exchange_coupon = int(input("바코드번호:"))
-            if exchange_coupon != 0:
+            if barcode_number == 9:
+                if __name__ == "__main__":  # 이 함수가 재시작
+                    main()
+            if barcode_number != 0 and barcode_number != 9:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
                 print_line()
                 break
+        elif payment_method == 3:
+            os.system("clear")
+            print_logo()
+            print("교환권 바코드를 스캔해주세요.")
+            print()
+            # 바코드 그림
+            b = "교환권"
+            print(f"{b:^13}")
+            print("║█║▌║█║▌│║▌║▌█║")
+            a = "1234567"
+            print(f"{a:^15}")
+            print_line()
+            print("이전으로 가실려면 0을 입력해주세요.")
+            print("처음으로 가실려면 9를 입력해주세요.")
+            exchange_coupon = int(input("바코드번호:"))
             if exchange_coupon == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-        elif payment_method == 4:
-            os.system("clear")
-            print_logo()
-            print("바코드를 스캔해주세요.")
-            print_line()
-            # 바코드 그림
-            print()
-            b = "L.pay"
-            print(f"{b:^15}")
-            print_line()
-            print("║█║▌║█║▌│║▌║▌█║")
-            a = "1234567"
-            print(f"{a:^15}")
-            print("취소하시려면 0을 입력하세요.")
-            L_pay = int(input("바코드번호:"))
-            if L_pay != 0:
+            if exchange_coupon == 9:
+                if __name__ == "__main__":  # 이 함수가 재시작
+                    main()
+            if exchange_coupon != 0 and exchange_coupon != 9:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
                 print_line()
                 break
+        elif payment_method == 4:
+            os.system("clear")
+            print_logo()
+            print("바코드를 스캔해주세요.")
+            print()
+            # 바코드 그림
+            b = "L.pay"
+            print(f"{b:^15}")
+            print("║█║▌║█║▌│║▌║▌█║")
+            a = "1234567"
+            print(f"{a:^15}")
+            print_line()
+            print("이전으로 가실려면 0을 입력해주세요.")
+            print("처음으로 가실려면 9를 입력해주세요.")
+            L_pay = int(input("바코드번호:"))
             if L_pay == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-        elif payment_method == 5:
-            os.system("clear")
-            print_logo()
-            print("바코드 읽는 곳에 PAYCO 바코드를 인식해주세요.")
-            print_line()
-            # 바코드 그림
-            print()
-            b = "PAYCO"
-            print(f"{b:^15}")
-            print_line()
-            print("║█║▌║█║▌│║▌║▌█║")
-            a = "1234567"
-            print(f"{a:^15}")
-            print("취소하시려면 0을 입력하세요.")
-            payco_barcode = int(input("바코드번호:"))
-            if payco_barcode != 0:
+            if L_pay == 9:
+                if __name__ == "__main__":  # 이 함수가 재시작
+                    main()
+            if L_pay != 0 and L_pay != 9:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
                 print_line()
                 break
+        elif payment_method == 5:
+            os.system("clear")
+            print_logo()
+            print("바코드 읽는 곳에 PAYCO 바코드를 인식해주세요.")
+            print()
+            # 바코드 그림
+            b = "PAYCO"
+            print(f"{b:^15}")
+            print("║█║▌║█║▌│║▌║▌█║")
+            a = "1234567"
+            print(f"{a:^15}")
+            print_line()
+            print("이전으로 가실려면 0을 입력해주세요.")
+            print("처음으로 가실려면 9를 입력해주세요.")
+            payco_barcode = int(input("바코드번호:"))
             if payco_barcode == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
+            if payco_barcode == 9:
+                if __name__ == "__main__":  # 이 함수가 재시작
+                    main()
+            if payco_barcode != 0 and payco_barcode != 9:
+                os.system("clear")
+                print_logo()
+                print("결제가 완료되었습니다.")
+                print_line()
+                break
+        elif payment_method == 6:
+            if __name__ == "__main__":  # 이 함수가 재시작
+                main()
         else:
             os.system("clear")
             print_logo()
