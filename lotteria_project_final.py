@@ -17,14 +17,14 @@ def main():
 
 def print_logo():
     print("""
-           ===============================================================
+           
            ██╗      ██████╗ ████████╗████████╗███████╗██████╗ ██╗ ██████╗
            ██║     ██╔═══██╗╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗██║██╔═══██╗
            ██║     ██║   ██║   ██║      ██║   █████╗  ██████╔╝██║██║█████║
            ██║     ██║   ██║   ██║      ██║   ██╔══╝  ██╔══██╗██║██║   ██║
            ███████╗╚██████╔╝   ██║      ██║   ███████╗██║  ██║██║██║    █║
            ╚══════╝ ╚═════╝    ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝    ╚╝
-           ===============================================================
+           
     """)
 
 
@@ -90,7 +90,7 @@ while True:
 while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까지의 전체 주문 프로세스를 감쌈
     print_logo() # 로고는 계속 출력되도록 변경
     print_line()
-    print(f'{"식사 장소를 선택해 주세요":^62}')
+    print(f'{"식사 장소를 선택해 주세요":^75}')
     print_line()
     print("")
     print("1. 매장식사", "2. 포장주문")  # 장소 선택메뉴 출력
@@ -242,7 +242,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
         order_price.append([])
         # 카테고리 선택 출력 창
         print_line()
-        print(f'{"카테고리 선택":^62}')
+        print(f'{"카테고리 선택":^75}')
         print_line()
         print("\n", category[0], "\n", category[1], "\n", category[2], "\n")
 
@@ -265,7 +265,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
 
         if selected_category == 1:
             print_line()
-            print(f'{"버거 세트 선택":^62}')
+            print(f'{"버거 세트 선택":^75}')
             print_line()
             print("\n", category_in_burger[0], "\n", category_in_burger[1], "\n", category_in_burger[2], "\n")
             print_line()
@@ -287,7 +287,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             if selected_category == 1 and selected_burger_set == 1:
 
                 print_line()
-                print(f'{"버거를 선택해주세요.":^62}')
+                print(f'{"버거를 선택해주세요.":^75}')
                 print_line()
                 print()
                 # 버거 메뉴 화면 띄우기
@@ -331,8 +331,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                 os.system("clear")
                 print_logo()
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"버거토핑 메뉴":^75}")
+                    print_line()
+                    print("")
                     for i in range(0, len(topping_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(topping_lst))):
@@ -387,8 +389,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                 # 콤보일때 버거 선택
                 # selected_burger = onlyNum(input("버거 숫자 입력>> "))
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"버거 메뉴":^60}")
+                    print_line()
+                    print("")
                     for i in range(0, len(burger_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(burger_lst))):
@@ -397,6 +401,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                             price = f"{num_format:>7}"
                             row += f"{name}{price}    "
                         print(row)
+                    print("")
                     print_line()
                     selected_burger = input("버거 숫자 입력>> ").strip()
 
@@ -428,8 +433,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                 # 콤보일 때 드링크 선택
                 # selected_set_drink = onlyNum(input("세트 드링크 숫자 입력>>"))
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"드링크 메뉴":^75}")
+                    print_line()
+                    print("")
                     for i in range(0, len(set_drink_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(set_drink_lst))):
@@ -438,6 +445,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                             price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
+                    print("")
                     print_line()
                     selected_set_drink = input("세트 드링크 숫자 입력>>").strip()
 
@@ -471,8 +479,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                 # selected_topping = input("버거 토핑 숫자 입력(선택 종료시 0)>> ")
 
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"버거토핑 메뉴":^75}")
+                    print_line()
+                    print("")
                     for i in range(0, len(topping_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(topping_lst))):
@@ -481,6 +491,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                             price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
+                    print("")
                     print_line()
                     selected_topping = input("버거 토핑 숫자 입력(선택 종료시 0)>> ").strip()
 
@@ -525,8 +536,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             elif selected_category == 1 and selected_burger_set == 3:
                 # 세트일때 버거 선택
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"버거 메뉴":^75}")
+                    print_line()
+                    print("")
                     for i in range(0, len(burger_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(burger_lst))):
@@ -535,6 +548,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                             price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
+                    print("")
                     print_line()
                     selected_burger = input("버거 숫자 입력>> ").strip()
 
@@ -564,8 +578,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
 
                 # 세트일 때 디저트 선택
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"디저트 메뉴":^75}")
+                    print_line()
+                    print("")
                     for i in range(0, len(set_dessert_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(set_dessert_lst))):
@@ -574,6 +590,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                             price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
+                    print("")
                     print_line()
 
                     set_dessert = input("세트 디저트 메뉴를 선택해주세요.: ").strip()
@@ -609,8 +626,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                 print_logo()
 
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"드링크 메뉴":^75}")
+                    print_line()
+                    print("")
                     for i in range(0, len(set_drink_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(set_drink_lst))):
@@ -619,6 +638,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                             price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
+                    print("")
                     print_line()
                     selected_set_drink = input("세트 드링크 숫자 입력>>").strip()
 
@@ -649,8 +669,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                 # 세트일 때 버거토핑 선택
                 # selected_topping = input("버거 토핑 숫자 입력(선택 종료시 0)>> ")
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"토핑 메뉴":^75}")
+                    print_line()
+                    print("")
                     for i in range(0, len(topping_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(topping_lst))):
@@ -659,6 +681,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                             price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
+                    print("")
                     print_line()
                     selected_topping = input("버거 토핑 숫자 입력(선택 종료시 0)>> ").strip()
 
@@ -704,8 +727,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             print("")
 
             while True:
-                print("")
                 print_line()
+                print(f"{"디저트 메뉴":^75}")
+                print_line()
+                print("")
                 for i in range(0, len(dessert_lst), 2):
                     row = ""
                     for j in range(i, min(i + 2, len(dessert_lst))):
@@ -714,6 +739,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                         price = f"{num_format:>7}"
                         row += f"{name}{price}    "
                     print(row)
+                print("")
                 print_line()
                 choose_dessert = input("디저트 번호를 선택해주세요. :").strip()
 
@@ -755,14 +781,15 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     choose_dessert == dessert_lst.index(dessert_lst[4]) or
                     choose_dessert == dessert_lst.index(dessert_lst[7])):
 
-                print("")
-                print(seasoning_lst)
 
                 while True:
-                    print("")
                     print_line()
+                    print(f"{"시즈닝 메뉴":^75}")
+                    print_line()
+                    print("")
                     for i in range(0, len(seasoning_lst)):
                         print(seasoning_lst[i])
+                    print("")
                     print_line()
                     choose_seasoning = input("시즈닝 맛을 선택해주세요. :").strip()
 
@@ -801,8 +828,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
         elif selected_category == 3:
 
             # elif choose_kategorie in ["2"]:
-            print("")
             print_line()
+            print(f"{"음료/커피 메뉴":^75}")
+            print_line()
+            print("")
             for i in range(0, len(drink_lst), 2):
                 row = ""
                 for j in range(i, min(i + 2, len(drink_lst))):
@@ -811,6 +840,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     price = f"{num_format:>7}"
                     row += f"{name}{price}    "
                 print(row)
+            print("")
             print_line()
             choose_drink = input("음료/커피 번호를 선택해주세요. :").strip()
 
@@ -878,7 +908,10 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
     # 무한 반복: 사용자가 주문 완료할 때까지 계속 메뉴 보여주고 입력 받음
     order_confirm_loop = True # 주문확인 루프를 위한 변수 추가
     while order_confirm_loop:
-        print("주문내역을 확인해주세요.")
+        print_line()
+        print(f"{"주문내역을 확인해주세요.":^75}")
+        print_line()
+        print("")
         # for문을 이용해 메뉴 리스트의 길이만큼 반복하며 메뉴 출력
         # i는 0부터 시작하는 인덱스, 메뉴 번호는 i+1로 출력
         # for i in range(len(order_items)):
@@ -899,9 +932,11 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                 print(f"{each_menu}{price}    ")
         print(f"총 결제 금액: {total_price}원") # 총 금액 추가
         # --- 결제 취소하면 이전 단계인 버거주문으로 돌아가도록 수정함 ---
-        print("0. 이전 단계(메뉴 선택)로 돌아가려면 0번") # 설명 수정
-        print("1. 결제 진행") # 설명 수정
-        print("9. 처음으로 돌아가려면 9번") # 추가
+        print("")
+        print_line()
+        print("결제 진행 1번") # 설명 수정
+        print("처음으로 돌아가려면 9번") # 추가
+        print_line()
         choice = -1 # choice 초기화
         while True: # 유효한 입력이 들어올 때까지 반복
             try:
