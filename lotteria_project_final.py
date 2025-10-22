@@ -301,6 +301,8 @@ while True:
                 while True:
                     print("")
                     print_line()
+
+                    print_line()
                     selected_burger = input("버거 숫자 입력>> ").strip()
 
                     if selected_burger == "" or selected_burger == " ":
@@ -333,6 +335,8 @@ while True:
                 # selected_set_drink = onlyNum(input("세트 드링크 숫자 입력>>"))
                 while True:
                     print("")
+                    print_line()
+                    print_line()
                     selected_set_drink = input("세트 드링크 숫자 입력>>").strip()
 
                     if selected_set_drink == "" or selected_set_drink == " ":
@@ -366,8 +370,9 @@ while True:
                 # selected_topping = input("버거 토핑 숫자 입력(선택 종료시 0)>> ")
 
                 while True:
-                    print_line()
                     print("")
+                    print_line()
+                    print_line()
                     selected_topping = input("버거 토핑 숫자 입력(선택 종료시 0)>> ").strip()
 
                     if selected_topping == "" or selected_topping == " ":
@@ -700,8 +705,6 @@ while True:
             os.system("clear")
             print_logo()
 
-
-
         # 확인용 출력 코드
         # print(order_items)
         # print(order_price)
@@ -711,45 +714,62 @@ while True:
         # menu_items = []
 
         # 주문 번호 초기값 지정 (예: 1001부터 시작) - 0이나 1로 시작하면 헷갈릴 수 있기 때문에
-        order_number = 1001
+        # order_number = 1001
 
         # # 사용자가 선택한 주문 내역을 저장할 빈 리스트
         # order_items = []
 
         # 무한 반복: 사용자가 주문 완료할 때까지 계속 메뉴 보여주고 입력 받음
+        while True:
+            print("\n===== 롯데리아 메뉴 =====")
+            # for문을 이용해 메뉴 리스트의 길이만큼 반복하며 메뉴 출력
+            # i는 0부터 시작하는 인덱스, 메뉴 번호는 i+1로 출력
+            for i in range(len(order_items)):
+                print(f"{i + 1}. {order_items[i]} - {order_price[i]}원")  # 상품과 가격을 표시 중
+            print(f"총 결제 금액: {total_price}원")  # 총 가격을 표시하고 있음
 
-    while True:
+            # --- 결제 취소하면 이전 단계인 버거주문으로 돌아가도록 수정함 ---
+            print("0. 결제 하시려면 0번")
+            print("1. 결제를 취소 하시려면 1번")
 
-        print_line()
-        print(f'{"주문 내역을 확인해주세요.":^62}')
-        print_line()
-        # for문을 이용해 메뉴 리스트의 길이만큼 반복하며 메뉴 출력
-        # i는 0부터 시작하는 인덱스, 메뉴 번호는 i+1로 출력
-        for i in range(len(order_items)):
-            print("")
-            print(f"{order_items[i]}")
-        for i in range(len(order_price)):
-            print(f"{order_price[i]}")
-        print("")
-        print("총 결제금액 :", total_price)
-        print("")
-        # 주문 완료 선택지 (0번)
+            try:
+                choice = int(input("선택하세요 : "))
+            except ValueError:
+                print("다시 입력해주세요.")
+                continue  # 숫자가 아닌 입력 시 다시 입력 요청
 
-        print_line()
-
-        try:
-            choice = int(input("결제 하시려면 0번을 눌러주세요 :"))
-        except ValueError:
-            # 숫자가 아닌 입력 시 안내 메시지 출력 후 반복 처음으로
-            print("숫자를 입력해주세요.")
-            continue
-        # 사용자가 0을 입력한 경우 (주문 완료 시도)
-        if choice == 0:
-            # 주문 내역이 비어있으면 경고 후 계속 주문 받음
-            if len(order_items) == 0:
-                print("주문 내역이 없습니다. 최소 1개 이상 선택하세요.")
+            if choice == 0:
+                if not order_items:
+                    print("주문 내역이 없습니다. 최소 1개 이상 선택하세요.")
+                    continue
+                print("\n===============================")
+                print("       주문이 완료되었습니다       ")
+                print("===============================")
+                print("주문 번호:", order_number)
+                print("주문 내역:")
+                for item_list, price_list in zip(order_items, order_price):
+                    for item, price in zip(item_list, price_list):
+                        print(f"- {item} ({price}원)")
+                print("감사합니다. 잠시만 기다려 주세요.")
+                print("===============================\n")
+                break
+            elif choice == 1:
+                print("결제가 취소되었습니다. 다시 주문을 시작합니다.")
+                time.sleep(2)
+                os.system("clear")
+                total_price = 0
+                order_items = []
+                order_price = []
+                end_selected = False
+                turn = 0
+                break  # 결제 취소 시, 현재 주문 프로세스(루프)를 종료하고 상위 루프로 돌아감
+            else:
+                print("다시 입력해주세요.")
+                # 0, 1 이외의 숫자가 입력되어도 동일 메뉴가 계속 추가되는 현상을 방지하기 위해 continue 추가
                 continue
-            # 주문 내역이 있을 경우 주문 완료 메시지 출력
+
+        if choice == 1:  # 주문이 취소되었을 경우, 메인 주문 루프의 처음부터 다시 시작하세요.
+            continue
 
             os.system("clear")
 
@@ -836,9 +856,7 @@ while True:
             print(f"{b:^12}")
             print("║█║▌║█║▌│║▌║▌█║")
             a = "1234567"
-            print("")
             print(f"{a:^15}")
-            print("")
             print_line()
             print("취소하시려면 0을 입력하세요.")
             barcode_number = int(input("바코드번호:"))
@@ -958,7 +976,7 @@ while True:
     print("출력한 주문번호를 받아가세요.")
     print_line()
 
-    receipt=input("영수증 유무 숫자를 입력하세요:") #영수증
+    receipt=input("영수증 유무 숫자를 입력하세요:")#영수증
     time.sleep(1)  # 1초후 넘어감
     os.system("clear")#위에 코드 안보이게 해줌
     while receipt not in ("1","2"):
