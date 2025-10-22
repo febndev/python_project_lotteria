@@ -17,19 +17,19 @@ def main():
 
 def print_logo():
     print("""
-    ===============================================================
-    ██╗      ██████╗ ████████╗████████╗███████╗██████╗ ██╗ ██████╗
-    ██║     ██╔═══██╗╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗██║██╔═══██╗
-    ██║     ██║   ██║   ██║      ██║   █████╗  ██████╔╝██║██║█████║
-    ██║     ██║   ██║   ██║      ██║   ██╔══╝  ██╔══██╗██║██║   ██║
-    ███████╗╚██████╔╝   ██║      ██║   ███████╗██║  ██║██║██║    █║
-    ╚══════╝ ╚═════╝    ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝    ╚╝
-    ===============================================================
+           ===============================================================
+           ██╗      ██████╗ ████████╗████████╗███████╗██████╗ ██╗ ██████╗
+           ██║     ██╔═══██╗╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗██║██╔═══██╗
+           ██║     ██║   ██║   ██║      ██║   █████╗  ██████╔╝██║██║█████║
+           ██║     ██║   ██║   ██║      ██║   ██╔══╝  ██╔══██╗██║██║   ██║
+           ███████╗╚██████╔╝   ██║      ██║   ███████╗██║  ██║██║██║    █║
+           ╚══════╝ ╚═════╝    ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝    ╚╝
+           ===============================================================
     """)
 
 
 def print_line():
-    print("=" * 67)
+    print("=" * 85)
 
 
 # 출력 정렬 함수 선언
@@ -61,6 +61,8 @@ def pad_manual(text, total_width):
 # 출력정렬함수선언끝
 
 while True:
+    os.system("clear")
+    print_logo()
     print("1.시작 2.대기번호 및 주문번호 초기화")
     manager = input()
     if manager == "1":
@@ -84,24 +86,6 @@ while True:
         else:
             print("다시 입력")
             break
-
-
-def print_logo():
-    print("""
-
-    ██╗      ██████╗ ████████╗████████╗███████╗██████╗ ██╗ ██████╗
-    ██║     ██╔═══██╗╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗██║██╔═══██╗
-    ██║     ██║   ██║   ██║      ██║   █████╗  ██████╔╝██║██║█████║
-    ██║     ██║   ██║   ██║      ██║   ██╔══╝  ██╔══██╗██║██║   ██║
-    ███████╗╚██████╔╝   ██║      ██║   ███████╗██║  ██║██║██║    █║
-    ╚══════╝ ╚═════╝    ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝    ╚╝
-
-    """)
-
-
-def print_line():
-    print("=" * 67)
-
 
 while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까지의 전체 주문 프로세스를 감쌈
     print_logo() # 로고는 계속 출력되도록 변경
@@ -984,13 +968,12 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
         else: # choice가 1인 경우 (결제 진행)
             pass # 아래 결제 로직으로 진행
 
-
     os.system("clear")
     print_logo()
     print("금액을 확인하신 후 결제수단을 선택해 주세요.")
     print_line()
-    print("주문금액:", total_price)
-    print("결제할 금액:", total_price)
+    print("주문금액:", format(int(total_price), ","))
+    print("결제할 금액:", format(int(total_price), ","))
     print_line()
 
     while True:
@@ -1001,67 +984,57 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
         print("5.페이코")
         print("6.처음으로")
         print_line()
-        payment_method = 0 # payment_method 초기화
-        while True: # 유효한 입력이 들어올 때까지 반복
-            try:
-                payment_method = int(input("결제방법을 선택해 주세요 >> "))
-                if payment_method in range(1, 7):
-                    break
-                else:
-                    print("1~6 사이의 숫자를 입력해주세요.")
-            except ValueError:
-                print("유효한 숫자를 입력해주세요.")
-
+        try:
+            payment_method = int(input("결제방법을 선택해 주세요 >> "))
+        except ValueError:
+            os.system("clear")
+            print_logo()
+            print("다시 입력해주세요.")
+            print_line()
+            continue  # 숫자가 아닌 입력 시 다시 입력 요청
         if payment_method == 1:
             os.system("clear")
             print_logo()
             print("카드를 단말기에 인식시켜 주세요.")
             print("카드 삽입 대기")
             print_line()
-            print("결제할 금액:", total_price)
+            print("결제할 금액:", format(int(total_price), ","))
             # 카드 그림
             print("""
-                      █████████████████╗
-                      █    IC CARD    █║
-                      █   ═════════   █║
-                      █               █║
-            ══════════█═══════════════█║═════
-                      █               █║
-                      █               █║
-                      █               █║
-                      █               █║
-                      █████████████████║
-                      ╚════════════════╝
-            """)
+                          █████████████████╗
+                          █    IC CARD    █║
+                          █   ═════════   █║
+                          █               █║
+                ══════════█═══════════════█║═════
+                          █               █║
+                          █               █║
+                          █               █║
+                          █               █║
+                          █████████████████║
+                          ╚════════════════╝
+                """)
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            card_number = 0 # card_number 초기화
-            while True: # 유효한 입력이 들어올 때까지 반복
-                try:
-                    card_number = input("카드번호: ").strip() # 입력값을 문자열로 받아서 처리
-                    if card_number == "0" or card_number == "9":
-                        card_number = int(card_number) # 숫자 0, 9로 변환
-                        break
-                    elif card_number.isdigit(): # 숫자로만 구성되어 있는지 확인
-                        card_number = int(card_number)
-                        break
-                    else:
-                        print("다시 입력해주세요.")
-                except ValueError:
-                    print("유효한 숫자를 입력해주세요.")
-
+            try:
+                card_number = int(input("카드번호: "))
+            except ValueError:
+                os.system("clear")
+                print_logo()
+                print("다시 입력해주세요.")
+                print_line()
+                continue
             if card_number == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            elif card_number == 9:
+            if card_number == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
                     os.system("clear")
-            else:
+            if card_number != 0 and card_number != 9:
                 os.system("clear")
                 print_logo()
                 print("카드 데이터 로딩 완료")
@@ -1073,6 +1046,8 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             print_logo()
             print("바코드를 스캔해주세요.")
             # 바코드 그림
+            print_line()
+            print("결제할 금액:", format(int(total_price), ","))
             print()
             b = "간편결제"
             print(f"{b:^12}")
@@ -1082,30 +1057,24 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            barcode_number = 0 # barcode_number 초기화
-            while True: # 유효한 입력이 들어올 때까지 반복
-                try:
-                    barcode_number = input("바코드번호:").strip()
-                    if barcode_number == "0" or barcode_number == "9":
-                        barcode_number = int(barcode_number)
-                        break
-                    elif barcode_number.isdigit():
-                        barcode_number = int(barcode_number)
-                        break
-                    else:
-                        print("다시 입력해주세요.")
-                except ValueError:
-                    print("유효한 숫자를 입력해주세요.")
+            try:
+                barcode_number = int(input("바코드번호: "))
+            except ValueError:
+                os.system("clear")
+                print_logo()
+                print("다시 입력해주세요.")
+                print_line()
+                continue
             if barcode_number == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            elif barcode_number == 9:
+            if barcode_number == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
-            else:
+            if barcode_number != 0 and barcode_number != 9:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
@@ -1115,6 +1084,8 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             os.system("clear")
             print_logo()
             print("교환권 바코드를 스캔해주세요.")
+            print_line()
+            print("결제할 금액:", format(int(total_price), ","))
             print()
             # 바코드 그림
             b = "교환권"
@@ -1125,30 +1096,24 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            exchange_coupon = 0 # exchange_coupon 초기화
-            while True: # 유효한 입력이 들어올 때까지 반복
-                try:
-                    exchange_coupon = input("바코드번호:").strip()
-                    if exchange_coupon == "0" or exchange_coupon == "9":
-                        exchange_coupon = int(exchange_coupon)
-                        break
-                    elif exchange_coupon.isdigit():
-                        exchange_coupon = int(exchange_coupon)
-                        break
-                    else:
-                        print("다시 입력해주세요.")
-                except ValueError:
-                    print("유효한 숫자를 입력해주세요.")
+            try:
+                exchange_coupon = int(input("바코드번호: "))
+            except ValueError:
+                os.system("clear")
+                print_logo()
+                print("다시 입력해주세요.")
+                print_line()
+                continue
             if exchange_coupon == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            elif exchange_coupon == 9:
+            if exchange_coupon == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
-            else:
+            if exchange_coupon != 0 and exchange_coupon != 9:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
@@ -1158,6 +1123,8 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             os.system("clear")
             print_logo()
             print("바코드를 스캔해주세요.")
+            print_line()
+            print("결제할 금액:", format(int(total_price), ","))
             print()
             # 바코드 그림
             b = "L.pay"
@@ -1168,30 +1135,24 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            L_pay = 0 # L_pay 초기화
-            while True: # 유효한 입력이 들어올 때까지 반복
-                try:
-                    L_pay = input("바코드번호:").strip()
-                    if L_pay == "0" or L_pay == "9":
-                        L_pay = int(L_pay)
-                        break
-                    elif L_pay.isdigit():
-                        L_pay = int(L_pay)
-                        break
-                    else:
-                        print("다시 입력해주세요.")
-                except ValueError:
-                    print("유효한 숫자를 입력해주세요.")
+            try:
+                L_pay = int(input("바코드번호: "))
+            except ValueError:
+                os.system("clear")
+                print_logo()
+                print("다시 입력해주세요.")
+                print_line()
+                continue
             if L_pay == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            elif L_pay == 9:
+            if L_pay == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
-            else:
+            if L_pay != 0 and L_pay != 9:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
@@ -1201,6 +1162,8 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             os.system("clear")
             print_logo()
             print("바코드 읽는 곳에 PAYCO 바코드를 인식해주세요.")
+            print_line()
+            print("결제할 금액:", format(int(total_price), ","))
             print()
             # 바코드 그림
             b = "PAYCO"
@@ -1211,30 +1174,24 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             print_line()
             print("이전으로 가실려면 0을 입력해주세요.")
             print("처음으로 가실려면 9를 입력해주세요.")
-            payco_barcode = 0 # payco_barcode 초기화
-            while True: # 유효한 입력이 들어올 때까지 반복
-                try:
-                    payco_barcode = input("바코드번호:").strip()
-                    if payco_barcode == "0" or payco_barcode == "9":
-                        payco_barcode = int(payco_barcode)
-                        break
-                    elif payco_barcode.isdigit():
-                        payco_barcode = int(payco_barcode)
-                        break
-                    else:
-                        print("다시 입력해주세요.")
-                except ValueError:
-                    print("유효한 숫자를 입력해주세요.")
+            try:
+                payco_barcode = int(input("바코드번호: "))
+            except ValueError:
+                os.system("clear")
+                print_logo()
+                print("다시 입력해주세요.")
+                print_line()
+                continue
             if payco_barcode == 0:
                 os.system("clear")
                 print_logo()
                 print("취소하셨습니다.")
                 print("결제방법을 다시 선택해 주세요.")
                 print_line()
-            elif payco_barcode == 9:
+            if payco_barcode == 9:
                 if __name__ == "__main__":  # 이 함수가 재시작
                     main()
-            else:
+            if payco_barcode != 0 and payco_barcode != 9:
                 os.system("clear")
                 print_logo()
                 print("결제가 완료되었습니다.")
@@ -1243,7 +1200,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
         elif payment_method == 6:
             if __name__ == "__main__":  # 이 함수가 재시작
                 main()
-        else: # payment_method의 유효성 검사에서 걸리므로 이 부분은 사실상 도달하지 않음
+        else:
             os.system("clear")
             print_logo()
             print("결제방법을 다시 선택해 주세요.")
