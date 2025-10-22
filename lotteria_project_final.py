@@ -58,7 +58,7 @@ def pad_manual(text, total_width):
     return text + ' ' * padding
 
 
-# 출력정렬함수선언끝
+# 출력 정렬 함수 선언 끝
 
 while True:
     os.system("clear")
@@ -190,7 +190,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
 
     # 시즈닝 종류 리스트
     seasoning_lst = ["01.치즈시즈닝", "02.칠리시즈닝", "03.어니언시즈닝", "04.실비김치맛시즈닝"]  # "5.선택 안함" 삭제
-
+    seasoning_price = [0, 0, 0, 0, 0]
     # 음료/커피 메뉴 리스트
     drink_lst = ["01.펩시콜라 (L)", "02.칠성사이다 (L)", "03.펩시콜라 (R)", "04.칠성사이다 (R)", "05.펩시콜라 (S)", "06.칠성사이다 (S)",
                  "07.펩시제로 (L)", "08.펩시제로 (R)", "09.아메리카노", "10.아이스아메리카노 (R)", "11.아이스아메리카노 (L)", "12.허쉬핫초코",
@@ -336,9 +336,9 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     for i in range(0, len(topping_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(topping_lst))):
-                            name = pad_manual(topping_lst[j], 33)
+                            name = pad_manual(topping_lst[j], 34)
                             num_format = format(int(topping_price[j]), ",")
-                            price = f"{num_format:>7}"
+                            price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
                     print_line()
@@ -433,9 +433,9 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     for i in range(0, len(set_drink_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(set_drink_lst))):
-                            name = pad_manual(set_drink_lst[j], 33)
+                            name = pad_manual(set_drink_lst[j], 34)
                             num_format = format(int(set_drink_price[j]), ",")
-                            price = f"{num_format:>7}"
+                            price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
                     print_line()
@@ -476,9 +476,9 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     for i in range(0, len(topping_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(topping_lst))):
-                            name = pad_manual(topping_lst[j], 33)
+                            name = pad_manual(topping_lst[j], 34)
                             num_format = format(int(topping_price[j]), ",")
-                            price = f"{num_format:>7}"
+                            price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
                     print_line()
@@ -530,9 +530,9 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     for i in range(0, len(burger_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(burger_lst))):
-                            name = pad_manual(burger_lst[j], 33)
+                            name = pad_manual(burger_lst[j], 34)
                             num_format = format(int(burger_price[j]), ",")
-                            price = f"{num_format:>7}"
+                            price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
                     print_line()
@@ -569,9 +569,9 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     for i in range(0, len(set_dessert_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(set_dessert_lst))):
-                            name = pad_manual(set_dessert_lst[j], 33)
+                            name = pad_manual(set_dessert_lst[j], 34)
                             num_format = format(int(set_dessert_price_lst[j]), ",")
-                            price = f"{num_format:>7}"
+                            price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
                     print_line()
@@ -614,9 +614,9 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     for i in range(0, len(set_drink_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(set_drink_lst))):
-                            name = pad_manual(set_drink_lst[j], 33)
+                            name = pad_manual(set_drink_lst[j], 34)
                             num_format = format(int(set_drink_price[j]), ",")
-                            price = f"{num_format:>7}"
+                            price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
                     print_line()
@@ -654,9 +654,9 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     for i in range(0, len(topping_lst), 2):
                         row = ""
                         for j in range(i, min(i + 2, len(topping_lst))):
-                            name = pad_manual(topping_lst[j], 33)
+                            name = pad_manual(topping_lst[j], 34)
                             num_format = format(int(topping_price[j]), ",")
-                            price = f"{num_format:>7}"
+                            price = f"+{num_format:>6}"
                             row += f"{name}{price}    "
                         print(row)
                     print_line()
@@ -781,6 +781,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
                     if choose_seasoning2 - 1 == seasoning_lst.index(seasoning_lst[i]):
                         print(seasoning_lst[i], "을(를) 선택하셨습니다.")
                         order_items[turn].append(seasoning_lst[i])
+                        order_items[turn].append(seasoning_price[i])
 
                 os.system("clear")
                 print_logo()
@@ -887,7 +888,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
             for j in range(len(order_items[i])):
                 menu_text = order_items[i][j]
                 if j >= 1:
-                    no_num_menu = f"    {menu_text[3:]}"
+                    no_num_menu = f"   +{menu_text[3:]}"
                 else:
                     no_num_menu = f"{menu_text[3:]}"
                 each_menu = pad_manual(no_num_menu, 70)
