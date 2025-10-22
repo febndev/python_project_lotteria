@@ -1252,25 +1252,27 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
     for i in range(len(order_items)):
         order_items1 = order_items1 + order_items[i]
         order_price1 = order_price1 + order_price[i]
-
     b_b = str(order_number).zfill(4)  # 4자리수로 출력하기 위해서
     print(f"{"결제가 완료되었습니다.":^65}")
     print(f"{"주문번호":^67}")
     print(f"{waiting_number:^67}")
-    time.sleep(3)
+    time.sleep(1)
     os.system("clear")  # 위에 코드 안보이게 해줌
+    print_logo()
     print(f"{"1.영수증 출력 2.영수증 출력(X)":^67}")
     print(f"{"출력한 주문번호를 받아가세요":^65}")
     print(f"{"영수증 유무 숫자를 입력하세요:":^66}")
-    receipt = "" # receipt 초기화
-    while True: # 유효한 입력이 들어올 때까지 반복
-        receipt = input().strip() # 영수증
+    receipt = input()  # 영수증
+    os.system("clear")  # 위에 코드 안보이게 해줌
+    print_logo()
+    while receipt not in ("1", "2"):
         if receipt in ["1", "2"]:
             break
         else:
             print(f"{"다시 입력해주세요.":^67}")
             print(f"{"1.영수증 출력 2.영수증 출력(X)":^67}")
             print(f"{"영수증 유무 숫자를 입력하세요:":^66}")
+            receipt = input()  # 영수증
     if receipt == "1":
         print(f"{"결제가 완료되었습니다.":^67}.")
         print(f"{"주문번호":^67}")
@@ -1283,7 +1285,7 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
         print(f"{f"{waiting_number}번":^67}")
         print(f"{"영수증 출력(X)":^67}")
         print(f"{"출력한 주문번호를 받아가세요":^65}.")
-    time.sleep(3)  # 1초후 넘어감
+    time.sleep(1)  # 1초후 넘어감
     os.system("clear")  # 위에 코드 안보이게 해줌
     if receipt == "1":
         print(f"{"[ 무  인 ]":^40}.")
@@ -1302,8 +1304,8 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
         print("￣" * 30)
         print(f"{"제품명                  금액":^40}")
         for i in range(len(order_items1)):
-            print(f"{f"{order_items1[i]}  {order_price1[i]}":^40}")  # 시킨 메뉴
-        print(f"{f"총 합 계 {total_price} 청 구 액 {total_price} 받 은 돈 {total_price}":^40}")  # 총 합계및 부가세 과세 청구액 받은돈 면세금액
+            print(f"{order_items1[i]:<25}{order_price1[i]:>10,}")#,넣으면 알아서 해줌
+        print(f"{f"총 합 계 {format(total_price, ',')} 청 구 액 {format(total_price, ',')} 받 은 돈 {format(total_price, ',')}":^40}")  # 총 합계및 부가세 과세 청구액 받은돈 면세금액
         print("￣" * 30)
         if payment_method == 1:
             print(f"{f"XXXX카드{card_number}KICC/A":^40}")  # 카드 번호와 인증 방식 필요
@@ -1335,20 +1337,18 @@ while True: # 이 가장 바깥쪽 while 루프가 메뉴 선택부터 결제까
         print("￣" * 40)
         print(f"{"제 품 명             포장유무":^40}")
         print("￣" * 40)
-
         if select == 1:
             for i in range(len(order_items1)):
-                print(f"{f"{order_items1[i]}  {order_price1[i]}":^40}")  # 시킨 메뉴
+                print(f"{order_items1[i]:<25}{order_price1[i]:>10,}")
         elif select == 2:
-            print(f"{"포장":^40}")
+            print(f"{f"포장":^40}")
         print("￣" * 40)
-        print(f"{"합  계                    {total_price}":^40}")  # 마지막 부분에 합계 필요
+        print(f"{f"합  계           {total_price}":^40}")  # 마지막 부분에 합계 필요
         print("￣" * 40)
         print(f"{"wi-fi 비밀번호 00000000":^40}")
         print(f"{"║█║▌║█║▌│║▌║▌█║":^40}")
         print(f"{" 0 0 0 0 0 0 0":^40}")
         time.sleep(6)  # 3초후 넘어감
-
     os.system("clear")
     waiting_number = waiting_number + 1
     order_number = order_number + 1
